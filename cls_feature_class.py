@@ -21,18 +21,6 @@ class FeatureClass:
         pwd = os.getcwd()
         if dataset == 'ansim':
             self._base_folder = pwd + '/data/'
-        elif dataset == 'resim':
-            self._base_folder = os.path.join('/proj/asignal/TUT_SELD/', 'doa_data_echoic/')
-        elif dataset == 'cansim':
-            self._base_folder = os.path.join('/proj/asignal/TUT_SELD/', 'doa_circdata/')
-        elif dataset == 'cresim':
-            self._base_folder = os.path.join('/proj/asignal/TUT_SELD/', 'doa_circdata_echoic/')
-        elif dataset == 'real':
-            self._base_folder = os.path.join('/proj/asignal/TUT_SELD/', 'tut_seld_data/')
-        elif dataset == 'mansim':
-            self._base_folder = os.path.join('/proj/asignal/TUT_SELD/', 'moving_sound_events_foa/')
-        elif dataset == 'mreal':
-            self._base_folder = os.path.join('/proj/asignal/TUT_SELD/', 'tut_seld_movingdata_foa/')
 
 
         # Input directories
@@ -391,7 +379,7 @@ class FeatureClass:
         for file_cnt, file_name in enumerate(os.listdir(self._feat_dir)):
                 print(file_cnt, file_name)
                 feat_file = np.load(os.path.join(self._feat_dir, file_name))
-                feat_file = spec_scaler.transform(np.concatenate((np.abs(feat_file), np.angle(feat_file)), axis=1))
+                feat_file = spec_scaler.fit_transform(np.concatenate((np.abs(feat_file), np.angle(feat_file)), axis=1))
                 np.save(
                     os.path.join(self._feat_dir_norm, file_name),
                     feat_file

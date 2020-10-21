@@ -3,27 +3,35 @@
 #
 
 import os
+import argparse
 import numpy as np
 import cls_feature_class
 from IPython import embed
 from collections import deque
 import random
 
+def sample():
+    # Set up argument parser
+    ap = argparse.ArgumentParser()
+    # Single positional argument, nargs makes it optional
+    ap.add_argument("sample", nargs='?', default="No Value")
+    # Do parsing
+    a = ap.parse_args()
+    return a.sample
+
 def sound2array(wav_pointer, file_cnt,file_list, feat):
+    pwd = os.getcwd()
     for k in file_list:
-        wav_pointer = wav_pointer + 1
-        if(wav_pointer==1):
-            print("#########################")
-            print("Saving np array")
-            print("STATS")
-            print(feat[0][4].min())
-            print(feat[0][4].max())
-            print(np.mean(feat[0][4]))
-            print("#########################")
-            np.save(
-                 '/home/michaili/SCL/SCLalpha/converted_input/converted_sound.wav.npy',
-                 feat[0]
-            )
+        if sample() in k:
+            wav_pointer += 1
+            if(wav_pointer==1):
+                print("#########################")
+                print("Saving np array..........")
+                print("#########################")
+                np.save(
+                     pwd + '/converted_input/converted_sound.wav.npy',
+                     feat[0]
+                )
     return wav_pointer
 
 class DataGenerator(object):
@@ -95,7 +103,7 @@ class DataGenerator(object):
 
     def _get_label_filenames_sizes(self):
         for filename in os.listdir(self._label_dir):
-            if 'test' in filename:
+            if sample() in filename:
                 self._filenames_list.append(filename)
         temp_feat = np.load(os.path.join(self._feat_dir, self._filenames_list[0]))
         self._nb_frames_file = temp_feat.shape[0]
@@ -192,7 +200,7 @@ class DataGenerator(object):
 
                 breakP = sound2array(breakP, file_cnt,self._filenames_list, feat)
 
-                yield feat, label
+            yield feat, label
 
     def _split_in_seqs(self, data):
         if len(data.shape) == 1:

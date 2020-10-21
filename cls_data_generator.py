@@ -10,33 +10,20 @@ from collections import deque
 import random
 
 def sound2array(wav_pointer, file_cnt,file_list, feat):
-    if(file_cnt==1):
-        #print(file_list)
-        for k in file_list:
-    #        print('blah')
-            print(k)
-    #        print(file_list)
-            if (k=='test_36_desc_30_100.wav.npy'):
-                wav_pointer = wav_pointer + 1
-                if(wav_pointer==1):
-                    print("#########################")
-                    print("Saving np array")
-                    print("STATS")
-        #                print(feat.shape)
-                    print('k:' + str(k) + "pointer:" + str(wav_pointer))
-                    print(feat[0][4].min())
-                    print(feat[0][4].max())
-                    print(np.mean(feat[0][4]))
-                    print("#########################")
-                    np.save(
-                         '/Users/michailisaakidis/Desktop/SoundLocalization/convertedSounds/my_data.wav.npy',
-                         feat[0]
-                    )
-
-                    #np.save(
-                    #    '/Users/michailisaakidis/Desktop/SoundLocalization/convertedSounds/' + str(wav_pointer) + '_part_' + k,
-                    #    feat[0]
-                    #)
+    for k in file_list:
+        wav_pointer = wav_pointer + 1
+        if(wav_pointer==1):
+            print("#########################")
+            print("Saving np array")
+            print("STATS")
+            print(feat[0][4].min())
+            print(feat[0][4].max())
+            print(np.mean(feat[0][4]))
+            print("#########################")
+            np.save(
+                 '/home/michaili/SCL/SCLalpha/converted_input/converted_sound.wav.npy',
+                 feat[0]
+            )
     return wav_pointer
 
 class DataGenerator(object):
@@ -108,7 +95,7 @@ class DataGenerator(object):
 
     def _get_label_filenames_sizes(self):
         for filename in os.listdir(self._label_dir):
-            if self._datagen_mode in filename:
+            if 'test' in filename:
                 self._filenames_list.append(filename)
         temp_feat = np.load(os.path.join(self._feat_dir, self._filenames_list[0]))
         self._nb_frames_file = temp_feat.shape[0]

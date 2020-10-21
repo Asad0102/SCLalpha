@@ -21,8 +21,10 @@ def reshape_3Dto4D(A):
     return A.reshape(1, A.shape[0] , A.shape[1], A.shape[2])
 
 wav_pointer = 10
-model_dir = '/Users/michailisaakidis/Desktop/SoundLocalization/models/50e_model.h5'
-sound_dir = '/Users/michailisaakidis/Desktop/SoundLocalization/convertedSounds/my_data.wav.npy'
+
+pwd = os.getcwd()
+model_dir = pwd + '/models/50e_model.h5'
+sound_dir = pwd + '/converted_input/converted_sound.wav.npy'
 
 
 model = keras.models.load_model(model_dir)
@@ -30,14 +32,9 @@ input = model.input
 output = model.output
 
 soundbatch = np.load(sound_dir)
-
-
 print(soundbatch.shape)
 
 
-#print(soundbatch[0][4].min())
-#print(soundbatch[0][4].max())
-#print(np.mean(soundbatch[0][4]))
 soundbatch = reshape_3Dto4D(soundbatch)
 
 #startTime = time.time()

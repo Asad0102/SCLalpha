@@ -18,8 +18,9 @@ class FeatureClass:
 
         # TODO: Change the path according to your machine.
         # TODO: It should point to a folder which consists of sub-folders for audio and metada
+        pwd = os.getcwd()
         if dataset == 'ansim':
-            self._base_folder = '/Users/michailisaakidis/Desktop/SoundLocalization/Training_Conversion/ov1_split1'
+            self._base_folder = pwd + '/data/'
         elif dataset == 'resim':
             self._base_folder = os.path.join('/proj/asignal/TUT_SELD/', 'doa_data_echoic/')
         elif dataset == 'cansim':
@@ -33,8 +34,6 @@ class FeatureClass:
         elif dataset == 'mreal':
             self._base_folder = os.path.join('/proj/asignal/TUT_SELD/', 'tut_seld_movingdata_foa/')
 
-        #elif dataset == 'ourData':
-    #    self._base_folder = os.path.join('/Users/michailisaakidis/Desktop/SoundLocalization/data/')
 
         # Input directories
         self._aud_dir = os.path.join(self._base_folder, 'wav_ov{}_split{}_{}db{}'.format(ov, split, db, wav_extra_name))
@@ -451,7 +450,7 @@ class FeatureClass:
     def get_normalized_feat_dir(self, extra=''):
         return os.path.join(
             self._base_folder,
-            'spec_ov{}_split{}_{}db_nfft{}{}_norm'.format(self._ov, self._split, self._db, self._nfft, extra)
+            'norm_data'
         )
 
     def get_unnormalized_feat_dir(self, extra=''):
@@ -463,7 +462,7 @@ class FeatureClass:
     def get_label_dir(self, mode, weakness, extra=''):
         return os.path.join(
             self._base_folder,
-            'label_ov{}_split{}_nfft{}_{}{}{}'.format(self._ov, self._split, self._nfft, mode, 0 if mode is 'regr' else weakness, extra)
+            'labels'
         )
 
     def get_normalized_wts_file(self, extra=''):
